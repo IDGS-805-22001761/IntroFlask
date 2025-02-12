@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block container %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form id="form1" action="/cinepolis" method="POST">
+                <h2>Entradas</h2>
+                <label for="nombre">Nombre:</label><br>
+                <input type="text" id="nombre" name="nombre" required><br>
+                <label for="cantidadC">Cantidad de compradores:</label><br>
+                <input type="number" id="cantidadC" name="cantidadC" required><br>
+                <label for="tarjetaC">Tarjeta Cineco:</label><br>
+                <input type="radio" id="tarjetaC_si" name="tarjetaC" value="si" required>
+                <label for="tarjetaC_si">Si</label>
+                <input type="radio" id="tarjetaC_no" name="tarjetaC" value="no" required>
+                <label for="tarjetaC_no">No</label><br>
+                <label for="cantidadB">Cantidad de boletos:</label><br>
+                <input type="number" id="cantidadB" name="cantidadB" required><br>
+                <div class="acciones mt-3">
+                    <button type="submit">Procesar</button>
+                    <button type="button" onclick="window.location.href='/';">Salir</button>
+                </div>
+            </form>
+        </div>
+        <div class="col">
+            <h2>Salidas</h2>
+            <div id="resultado">
+                {% if total is defined %}
+                    <p>Nombre: {{ nombre }}</p>
+                    <p>Total a pagar: ${{ total }}</p>
+                {% elif error is defined %}
+                    <p style="color: red;">{{ error }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
