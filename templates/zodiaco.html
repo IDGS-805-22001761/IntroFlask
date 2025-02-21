@@ -4,6 +4,8 @@
 {% import "_macros.html" as macros %}
 
 <h2>Datos Personales</h2>
+{{ form.csrf_token }}
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <div class="d-flex justify-content-center align-items-start gap-5 vh-100 p-5" style="display: flex; gap: 4rem;">
     <div class="formulario w-50 p-4 border rounded shadow">
         <form action="" method="post" novalidate>

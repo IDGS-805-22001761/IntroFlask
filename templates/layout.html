@@ -46,10 +46,20 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        {% block container %}
 
-        {%endblock%}
+    {% block container %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        {% endblock %}
     </div>
 
 </body>

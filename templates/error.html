@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block container %}
+    <div class="error-page">
+        <h1>Error 404</h1>
+        <p>Lo sentimos, la página que estás buscando no se pudo encontrar.</p>
+        <a href="{{ url_for('index') }}">Volver a la página principal</a>
+    </div>
+{% endblock %}

@@ -1,13 +1,32 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g, flash
+from flask_wtf import CSRFProtect
 import forms
 import form
 from datetime import datetime
+
 app = Flask(__name__)
+
+app.secret_key="SECRETKEY"
+csrf = CSRFProtect()
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("error.html"), 404
+
+@app.before_request
+def before_request():
+    g.nombre = "Pedro"
+    print("Antes de la petición")
+
+@app.after_request
+def after_request(response):
+    print("Después de la petición")
+    return response
 
 @app.route('/')
 def index():
     titulo="Chi"
-    lista=["Pedor","Juan","Pepe"]
+    lista=["Pedro","Juan","Pablo"]
     return render_template("index.html", titulo=titulo, lista=lista)
 
 @app.route('/user/<string:user>')
@@ -67,6 +86,7 @@ def operas():
 
 @app.route('/cinepolis', methods=['GET', 'POST'])
 def cine():
+    print("Socio: {}".format(g.nombre))
     if request.method == 'POST':
         nombre = request.form.get('nombre')
         numPersonas = int(request.form.get('cantidadC'))
@@ -123,6 +143,8 @@ def zodiaco():
     zodiaco_clase = form.UseForm(request.form)
     
     if request.method == "POST" and zodiaco_clase.validate():
+        mensaje = 'Bienvenido {}'.format(g.nombre)
+        flash(mensaje)
         nombre = zodiaco_clase.nombre.data
         APaterno = zodiaco_clase.APaterno.data
         AMaterno = zodiaco_clase.AMaterno.data
@@ -144,4 +166,5 @@ def zodiaco():
     return render_template("zodiaco.html", form=zodiaco_clase, nombre=nombre, APaterno=APaterno, AMaterno=AMaterno, dia=dia, mes=mes, ano=ano, edad=edad, signo_chino=signo_chino, signo_imagen=signo_imagen)
 
 if __name__ == '__main__':
+    csrf.init_app(app)
     app.run(debug=True, port=3000)
